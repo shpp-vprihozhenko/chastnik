@@ -1,0 +1,41 @@
+<div class="container">
+  <h1>Зарегистрироваться</h1>
+  <div *ngIf="reqMsg.length > 0">
+    <div class="alert alert-danger" role="alert">
+      Внимание! {{ reqMsg }}
+    </div>
+  </div>
+  <form>
+    <div class="form-group">
+      <label for="name">Email:</label>
+      <input type="text" class="form-control" id="email" required [(ngModel)]="email" name='email'>
+    </div>
+    <div class="form-group">
+      <label for="pwd">Пароль</label>
+      <input type="password" class="form-control" id="pwd" [(ngModel)]="pwd" name='pwd'>
+    </div>
+
+    <div *ngIf="!fNewUser">
+      <button type="submit" class="btn btn-success" (click)='onSubmit()'>Подтвердить</button>
+    </div>
+
+    <div *ngIf="fNewUser">
+      <h2>Вы впервые здесь?</h2>
+      <div class="form-group">
+        <label for="name">Как вас зовут?!</label>
+        <input type="text" class="form-control" id="name" required [(ngModel)]="name" name='name'>
+      </div>
+      <button type="submit" class="btn btn-success" (click)='onSubmitNew()'>
+        Регистрировать нового пользователя
+      </button>
+      <button type="submit" class="btn btn-success" (click)='cancelSubmit()' style='margin-left: 2rem'>
+        Уточнить пароль
+      </button>
+    </div>
+
+    <div style='height: 30vh'>
+
+    </div>
+
+  </form>
+</div>
