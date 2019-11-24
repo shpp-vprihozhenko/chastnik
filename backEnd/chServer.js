@@ -1,8 +1,12 @@
-
+const fs = require('fs');
 const MongoClient = require('mongodb').MongoClient;
-//const uri = "mongodb+srv://dbMaster:Qwe123@cluster0-qwqcu.mongodb.net/test?retryWrites=true&w=majority";
 const uri = "mongodb://localhost:27017";
+//const uri = "mongodb+srv://dbMaster:Qwe123@cluster0-qwqcu.mongodb.net/test?retryWrites=true&w=majority";
 const client = new MongoClient(uri, {useNewUrlParser: true, useUnifiedTopology: true}); 
+
+let arAdminsEmail  = [];
+try { arAdminsEmail = JSON.parse(fs.readFileSync('admins.json')) }
+catch(e) { console.log('err on read adm list', e) }
 
 let usersCol;
 
@@ -43,7 +47,7 @@ app2.use(function(req, res, next) {
 app2.get('/user/identify/:email/:pwd', function (req, res) {
 	console.log('looking user',req.params);
 	usersCol.findOne({"email": req.params.email}, (error, user)=>{
-		let err = '', uId = '', name = '';
+		let err = '', uId = '', name = '', perm = 0;
 		if(!user){
 			console.log('no such user in db');
 			err = 'Пользователь с таким паролем в базе не найден.';
@@ -54,25 +58,28 @@ app2.get('/user/identify/:email/:pwd', function (req, res) {
 			} else {
 				console.log('pwd ok');
 				uId = user._id; name = user.name;
+				if (arAdminsEmail.indexOf(req.params.email) > -1) {
+					perm = 1;
+				}
 			}
 		}
 		console.log('userId',uId,'name',name);
-		res.send(JSON.stringify({err, user: {uId, name}}));
+		res.send(JSON.stringify({err, user: {uId, name, perm}}));
 	});
 });
 
 app2.post('/user/add', function (req, res) {
 	console.log('post user/add body',req.body);
 	let err = undefined;
-	usersCol.findOne({"email": req.body.email}, (err, user)=>{
+	usersCol.findOne({"email": req.body.email}, (e, user)=>{
 		if(user){
 			console.log('Error. Such email already present in db.');
 			err = 'Ошибка при создании пользователя(';
 			res.send(JSON.stringify({err: err, newId: undefined}));
 		} else {
-			usersCol.insertOne({email: req.body.email, pwd: req.body.pwd, name: req.body.name}, (err, newUser)=>{
-				if(!res){
-					err = 'Ошибка при создании пользователя(';
+			usersCol.insertOne({email: req.body.email, pwd: req.body.pwd, name: req.body.name, phone: req.body.phone}, (e, newUser)=>{
+				if(e){
+					err = 'Ошибка при создании пользователя( '+e;
 					res.send(JSON.stringify({err: err, newId: undefined}));
 				} else {
 					console.log('newUser ID',newUser.insertedId);
@@ -101,3 +108,38 @@ app2.post('/user/del', function (req, res) {
 		}
 	});
 });
+
+/*
+0) users: name, email, phoneNumber, pwd
+
+1) rss - tbl
+	id,
+	user,
+	req/offer,
+	reqServ: { [cats] , 
+		cat[1], cat[2], cat[3], descr, fullDescr, price/час.../ фикс.},
+			обслуживание/ авто / volvo / sens / mercedes / ...
+						/ кондиционеров / марки...
+			обучение 	/ программированию / 1с / js 
+						/ вождению ...
+			ремонт 	/ квартир 	/ внутренний
+					/ легкАвто 	/ ...
+					/ грузАвто 	/
+					/ домов		/ штукатурка, полы, окна 
+			разработка 	/ сайтов / wordPress / jumla
+						/ схем
+			+ запрос на добавление категории от юзера - письмо админу - ссылка для подтверждения
+	finTermOfReq
+	
+2) cat1, cat2, cat3
+
+3) объявление - ищу ремонт.легкАвто.volvo.v40 замена масла.до... -> 
+	микротендер ->
+		рассылка заинтересованным, ожид. ответов ->
+			сообщение об ответах заказчику... + Микрочат?
+	
+1C- +уч нов. рег при арх.
+
+*/
+
+1C- +уч нов. рег при арх.

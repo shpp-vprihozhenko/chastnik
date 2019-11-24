@@ -8,6 +8,7 @@ import { MyServicesComponent } from './my-services/my-services.component';
 import { RegistryUserComponent } from './registry-user/registry-user.component';
 import { RSSComponent } from './rss/rss.component';
 import { FormsModule }   from '@angular/forms';
+import { AdminPanelComponent } from './admin-panel/admin-panel.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { FormsModule }   from '@angular/forms';
     LookForServiceComponent,
     MyServicesComponent,
     RegistryUserComponent,
-    RSSComponent
+    RSSComponent,
+    AdminPanelComponent
   ],
   imports: [
     BrowserModule,

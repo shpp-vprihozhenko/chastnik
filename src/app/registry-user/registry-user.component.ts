@@ -12,6 +12,7 @@ export class RegistryUserComponent implements OnInit {
   name: string;
   pwd: string;
   email: string;
+  phone: string;
 
   fNewUser = false;
   reqMsg = '';
@@ -23,8 +24,6 @@ export class RegistryUserComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log('email', this.email);
-    console.log('pwd', this.pwd);
     if (this.checkReqFileds()){
       this.commonDataServ.checkUser(this.email, this.pwd).then( fUserOk =>{
         if (fUserOk) {
@@ -57,16 +56,23 @@ export class RegistryUserComponent implements OnInit {
   }
 
   onSubmitNew() { 
-    console.log('name', this.name);
-    console.log('email', this.email);
-    console.log('pwd', this.pwd);
+    console.log('name', this.name, this.phone);
     if (this.checkReqFileds(true)) {
       console.log('ok for reg new user');
+      this.commonDataServ.addUser(this.name, this.email, this.pwd, this.phone).then( result =>{
+        if (!result.err) {
+          console.log('user added', this.commonDataServ.commonDataObj.user);
+          this.router.navigate(['/RSS']);
+        } else {
+          this.reqMsg = 'Ошибка. '+result.err+'. Повторите попытку немного позже.';
+        }
+      })
     }
   }
 
   cancelSubmit() {
     this.pwd = '';
     this.fNewUser = false;
+    this.reqMsg = '';
   }
 }

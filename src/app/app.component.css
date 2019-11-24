@@ -57,3 +57,17 @@ header {
     */
     font-style: italic;
 }
+
+.myBtn {
+    padding: 4px;
+    margin: 16px;
+    border: 1px solid blue;
+    background-color: aliceblue;
+    border-radius: 1rem;
+}
+
+.myBtn:hover {
+    background: lightblue;
+    cursor: pointer;
+    opacity: 0.8;
+}

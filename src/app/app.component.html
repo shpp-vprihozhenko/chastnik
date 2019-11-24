@@ -1,16 +1,26 @@
 <header>
   <div class="hello">
-      Добро пожаловать на сайт частных услуг {{ city }}!
+    Добро пожаловать на сайт частных услуг {{ city }}!
   </div>
   <div class='topImg'></div>
   <div class="nazhmi">
     <!-- Шо ты молчишь как рыба об лёд?!  -->
-      Нажми на клавиши, продай талант!
+    Нажми на клавиши, продай талант!
   </div>
 </header>
-<nav>
-  <a [routerLink]="[ '/LookForService' ]">Ищу услугу</a>
-  <a [routerLink]="[ '/MyServices' ]">Окажу услугу</a>
-  <a [routerLink]="[ '/RegistryUser' ]">Зарегистрироваться</a>
-</nav>
+  <nav>
+    <a [routerLink]="[ '/LookForService' ]">Ищу услугу</a>
+    <a [routerLink]="[ '/MyServices' ]">Окажу услугу</a>
+    <a *ngIf="!commonData.user.name" [routerLink]="[ '/RegistryUser' ]">Зарегистрироваться</a>
+    <a *ngIf="commonData.user.name" (click)='logoff()' [routerLink]="[ '/RSS' ]"
+    style="opacity: 0.5">Выйти</a>
+  </nav>
+<div style='display: flex; justify-content: center'>
+  <h3 *ngIf="commonData.user.name">Приветствую, {{ commonData.user.name }}.</h3>
+  <div *ngIf="commonData.user.perm == 1" 
+    [routerLink]="[ '/adminPanel' ]" 
+    class='myBtn'>
+    Админка
+  </div>
+</div>
 <router-outlet></router-outlet>
