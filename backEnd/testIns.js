@@ -56,29 +56,72 @@ client.connect(err => {
 		}
 	});
 	*/
-	/*
-	сolCat1.insertOne({cat: 'Обслуживание'}, (err, newCat)=>{
-		if (err) {
-			console.log('Ошибка при создании cat1(', err);
-		} else {
-			console.log('newCat',newCat); //.insertedId
+	сolCat1.insertOne({cat: 'Обслуживание'}, (err, newCat1)=>{
+		if (err) { console.log('Ошибка при создании cat1(', err) } 
+		else { 
+			console.log('ok ins Cat1 id', newCat1.insertedId)	
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Грузовых авто'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Легковых авто'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
 		}
 	});
-	*/
-	/*
+	сolCat1.insertOne({cat: 'Ремонт'}, (err, newCat1)=>{
+		if (err) { console.log('Ошибка при создании cat1(', err) } 
+		else { 
+			console.log('ok ins Cat1 id', newCat1.insertedId)	
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Грузовых авто'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Легковых авто'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Квартир'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Телефонов'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
+		}
+	});
+	сolCat1.insertOne({cat: 'Реставрация'}, (err, newCat1)=>{
+		if (err) { console.log('Ошибка при создании cat1(', err) } 
+		else { 
+			console.log('ok ins Cat1 id', newCat1.insertedId)	
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Автомобилей'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
+			сolCat2.insertOne({cat1id: newCat1.insertedId, cat2: 'Зданий'}, (err, newCat2)=>{
+				if (err) { console.log('Ошибка при создании cat2(', err) 
+				} else { console.log('ok ins Cat2', newCat2.insertedId) }
+			});
+		}
+	});
+	
 	usersCol.insertOne({email: 'test1@gmail.com', pwd: '12345', name: 'Stasik'}, (err, newUser)=>{
 		if (err) {
 			err = 'Ошибка при создании пользователя(';
 			res.send(JSON.stringify({err: err, newId: undefined}));
 		} else {
-			console.log('newUser ID',newUser.insertedId);
+			console.log('newUser ID', newUser.insertedId);
 		}
 	});
-	*/
 	
+
+	/*
 	usersCol.find({}).toArray((err,arUsers)=>{
 		console.table(arUsers);	  
 	});
+	*/
 	
 	сolCat1.find().toArray((err,ar)=>{
 		console.log('\ncolCat1');
